@@ -29,15 +29,17 @@ io.on('connection', (socket) => {
 	console.log('New user connected');
 	// emit() creates an event rather than listening for one.
 	// It does not require a callback function, but instead an optional data to be sent.
-	socket.emit('newMessage', {
-		from: 'server@mail.com',
-		text: 'Starting out the real chat app now',
-		createdAt: 1233
-	});
+	//socket.emit() emits to single connections
 
 	// custom event listener
-	socket.on('createMessage', (newMessage) => {
-		console.log('createMessage', newMessage);
+	socket.on('createMessage', (message) => {
+		console.log('createMessage', message);
+		// io.emit() emits to multiple connections
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		});
 	});
 
 	socket.on('disconnect', () => {

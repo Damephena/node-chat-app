@@ -4,12 +4,6 @@ var socket = io();
 //built-in event
 socket.on('connect', () => {
 	console.log('connected to server');
-
-	// to only emit when connected
-	socket.emit('createMessage', {
-		from: 'enn@mail.com',
-		text: 'I am super hyped for this two-way communication!'
-	});
 });
 
 socket.on('disconnect', () => {
