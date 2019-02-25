@@ -1,3 +1,4 @@
+const {generateMessage} = require('./utils/message.js');
 // for specifying relative/absoulte path using Node.js built-in module
 const path = require('path');
 // In order to use Socket.io, we need to configure http ourselves.
@@ -32,17 +33,9 @@ io.on('connection', (socket) => {
 	//socket.emit() emits to single connections
 
 	// greeting individual user
-	socket.emit('newMessage', {
-			from: 'Admin',
-			text: 'Welcome to chat app',
-			createdAt: new Date().getTime()
-	});
+	socket.emit('newMessage', generateMessage('Admin', 'Welcome to chat app'));
 
-	socket.broadcast.emit('newMessage', {
-			from: 'Admin',
-			text: 'New user joined',
-			createdAt: new Date().getTime()
-	});
+	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
 
 	// custom event listener
@@ -50,11 +43,7 @@ io.on('connection', (socket) => {
 		console.log('createMessage', message);
 		// io.emit() emits to multiple connections
 
-		io.emit('newMessage', {
-			from: message.from,
-			text: message.text,
-			createdAt: new Date().getTime()
-		});
+		io.emit('newMessage', generateMessage(message.from, message.text));
 
 		// broadcast.emit() prevent message sharer from recieving the sent message.
 		// socket.broadcast.emit('newMessage', {
