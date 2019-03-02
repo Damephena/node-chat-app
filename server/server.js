@@ -39,11 +39,12 @@ io.on('connection', (socket) => {
 
 
 	// custom event listener
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {
 		console.log('createMessage', message);
 		// io.emit() emits to multiple connections
 
 		io.emit('newMessage', generateMessage(message.from, message.text));
+		callback('This is from the server');
 
 		// broadcast.emit() prevent message sharer from recieving the sent message.
 		// socket.broadcast.emit('newMessage', {
