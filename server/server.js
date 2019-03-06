@@ -1,4 +1,4 @@
-const {generateMessage} = require('./utils/message.js');
+const {generateMessage, generateLocationMessage} = require('./utils/message.js');
 // for specifying relative/absoulte path using Node.js built-in module
 const path = require('path');
 // In order to use Socket.io, we need to configure http ourselves.
@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
 	// greeting individual user
 	socket.emit('newMessage', generateMessage('Admin', 'Welcome to chat app'));
 
+	// broadcast.emit() prevent message sharer from recieving the sent message.
 	socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
 
@@ -45,13 +46,10 @@ io.on('connection', (socket) => {
 
 		io.emit('newMessage', generateMessage(message.from, message.text));
 		callback('This is from the server');
+	});
 
-		// broadcast.emit() prevent message sharer from recieving the sent message.
-		// socket.broadcast.emit('newMessage', {
-		// 	from: message.from,
-		// 	text: message.text,
-		// 	createdAt: new Date().getTime()
-		// });
+	socket.on('createLocationMessage', (coords) => {
+		io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude))
 	});
 
 	socket.on('disconnect', () => {
