@@ -2,7 +2,9 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="/css/styles.css">
+		<title>Chat App </title>
+		<link rel="icon" href="/img/favicon.png">
+		<link rel="stylesheet" href="/css/styles.css">
 		<title></title>
 	</head>
 	<body class="chat">
@@ -27,10 +29,37 @@
 			</div>
 			
 		</div>
+ 
+		<script id="message-template" type="text/html">
+			<li class="message">
+				<div class="message__title">
+					<h4>{{from}}</h4>
+					<span>{{createdAt}}</span>
+				</div>
+				<div class="message__body">
+					<p>{{text}}</p>
+				</div>
+			</li>
+		</script>
+
+		<script id="location-message-template" type="text/html">
+			<li class="message">
+				<div class="message__title">
+					<h4>{{from}}</h4>
+					<span>{{createdAt}}</span>
+				</div>
+				<div class="message__body">
+					<p>
+						<a href="{{url}}" target="_blank">My current location</a>
+					</p>
+				</div>
+			</li>
+		</script>
 		
 		<script src="socket.io/socket.io.js"></script>
 		<script src="/js/libs/jquery-3.3.1.min.js"></script>
 		<script src="/js/libs/moment.js"></script>
+		<script src="/js/libs/mustache.js"></script>
 		<script src="/js/index.js"></script>
 	</body>
 </html>

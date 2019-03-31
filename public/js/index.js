@@ -13,22 +13,30 @@ socket.on('disconnect', () => {
 //custom event listener for New messages
 socket.on('newMessage', (message) => {
 	var formattedTime = moment(message.createdAt).format('h:mm a');
-	// to render a new message
-	var li = jQuery('<li></li>'); // create a tag
-	li.text(`${message.from} ${formattedTime}: ${message.text}`);
+	var template = jQuery('#message-template').html();
+	var html = Mustache.render(template, {
+		text: message.text,
+		from: message.from,
+		createdAt: formattedTime
+	});
 
-	jQuery('#messages').append(li);
+	jQuery('#messages').append(html);
+	// to render a new message without a template like Mustache
+	// var li = jQuery('<li></li>'); // create a tag
+	// li.text(`${message.from} ${formattedTime}: ${message.text}`);
+
+	// jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage', (message) => {
 	var formattedTime = moment(message.createdAt).format('h:mm a');
-	var li = jQuery('<li></li>');
-	var a = jQuery('<a target="_blank">My current location</a>');
-
-	li.text(`${message.from} ${formattedTime}: `);
-	a.attr('href', message.url);
-	li.append(a);
-	jQuery('#messages').append(li);
+	var template = jQuery('#location-message-template').html();
+	var html = Mustache.render(template, {
+		from: message.from,
+		url: message.url,
+		createdAt: formattedTime
+	})
+	jQuery('#messages').append(html);
 })
 
 // to create acknowledgement, we use callbacks
