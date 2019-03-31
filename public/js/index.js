@@ -1,6 +1,24 @@
 // initiating a request from the client to the server to open up a websocket and keeps it open.
 var socket = io();
 
+//for auto-scrolling
+function scrollToBottom () {
+	//Selectors
+	var messages = jQuery('#messages');
+	var newMessage = messages.children('li:last-child')
+	// Height
+	var clientHeight = messages.prop('clientHeight');
+	var scrollTop = messages.prop('scrollTop');
+	var scrollHeight = messages.prop('scrollHeight');
+	var newMessageHeight = newMessage.innerHeight(); //innerHeight addes CSS padding or whatever
+	var lastMessageHeight = newMessage.prev().innerHeight(); //taking account of last message BEFORE the new last message.
+
+	if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight){
+		// set scrollTop value to scrollHeight to Automate scrolling
+		messages.scrollTop(scrollHeight);
+	}
+}
+
 //built-in event
 socket.on('connect', () => {
 	console.log('connected to server');
@@ -21,6 +39,7 @@ socket.on('newMessage', (message) => {
 	});
 
 	jQuery('#messages').append(html);
+	scrollToBottom();
 	// to render a new message without a template like Mustache
 	// var li = jQuery('<li></li>'); // create a tag
 	// li.text(`${message.from} ${formattedTime}: ${message.text}`);
