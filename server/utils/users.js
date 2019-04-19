@@ -10,8 +10,16 @@ class Users {
 	}
 	addUser (id, name, room){
 		var user = {id, name, room};
+		// var oldUsers = this.users.filter((older) => older.room === user.room);
+		// var filteredUsers = oldUsers.map((old) => old.name);
+
+		// if (user.name == filteredUsers) {
+		// 	this.users.pop(user);
+		// } else {
+		// 	this.users.push(user);	
+		// }
 		this.users.push(user);
-		return user;		
+		return user;
 	}
 
 	removeUser (id) {

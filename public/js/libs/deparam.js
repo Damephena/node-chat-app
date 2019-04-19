@@ -14,7 +14,8 @@
       new RegExp(
         "([^?=&]+)(=([^&#]*))?", "g"),
         function($0, $1, $2, $3) {
-        	queryString[$1] = decodeURIComponent($3.replace(/\+/g, '%20'));
+          // To Capitalize String
+        	queryString[$1] = decodeURIComponent($3.replace(/\+/g, '%20')).charAt(0).toUpperCase() + $3.slice(1).toLowerCase();
         }
       );
       return queryString;
